@@ -11,12 +11,12 @@
 [![Tailwind](https://img.shields.io/badge/Tailwind-3-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)]()
 [![License](https://img.shields.io/badge/license-MIT-00ff88?style=flat-square)]()
 
-**Local workspace manager.** Free - Offline - Yours!
+**Free - Offline - Yours!**
 All your Files are yours Everything si stores as standard files `.md`, `.csv`, `.json` No propriatray file formats are used. your work is your own! There is no sense in locking it down. The Application itself is open source so you can ammend as you wish. Make something Awesome! 
 
 Also there is no tracking, no cloud dependancies no nothing (check for yourself!) Computer software should be simple no need to add things or lock things down for no reason. I make it, you enjoy it. Form and Fucntion over unecercery gubbins! There is no subscrption. No sales pitch, no carpet pulling, Not even any donations! Just enjoy what I made if you find it useful that thats all I need. 
 
-** PLEASE NOTE THIS SOFTWARE IS FREE IF YOU SEE ANY LISTING ACTING LIKE THIS ONE TRYING TO SELL IT TO YOU DONT FALL FOR IT! **
+**PLEASE NOTE THIS SOFTWARE IS FREE IF YOU SEE ANY LISTING ACTING LIKE THIS ONE TRYING TO SELL IT TO YOU DONT FALL FOR IT!**
 While people are free to copy this software make improvements and even sell their own versions, people who just rip the software do nothing to it and sell it, While legally the can, isnt fair and you should not pay for somthing that is free. If they add some cool new features or whatever that great good on them, But dont fall for a rip of this.
 
 </div>
