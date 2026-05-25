@@ -1,0 +1,190 @@
+@import './variables.css';
+@import './animations.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    font-size: var(--font-size);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: var(--surface-950);
+    color: var(--surface-300);
+    overflow: hidden;
+    user-select: none;
+  }
+
+  input, textarea, select {
+    font-family: inherit;
+    font-size: inherit;
+  }
+
+  ::selection {
+    background: rgba(var(--accent-color-rgb), 0.3);
+    color: #fff;
+  }
+}
+
+@layer components {
+  .glass-panel {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: var(--glass-shadow);
+  }
+
+  .panel-header {
+    @apply px-4 py-3 flex items-center justify-between;
+    border-bottom: 1px solid var(--glass-border);
+  }
+
+  .panel-header h2 {
+    @apply text-sm font-semibold tracking-wider uppercase;
+    color: var(--surface-400);
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded text-xs font-medium transition-all duration-150;
+  }
+
+  .btn-primary {
+    background: var(--accent-color);
+    color: #fff;
+  }
+  .btn-primary:hover {
+    filter: brightness(1.15);
+  }
+
+  .btn-secondary {
+    background: var(--surface-800);
+    color: var(--surface-300);
+    border: 1px solid var(--surface-700);
+  }
+  .btn-secondary:hover {
+    background: var(--surface-700);
+    color: #fff;
+  }
+
+  .btn-ghost {
+    color: var(--surface-400);
+  }
+  .btn-ghost:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .btn-danger {
+    background: #ff3355;
+    color: #fff;
+  }
+  .btn-danger:hover {
+    filter: brightness(1.15);
+  }
+
+  .input {
+    @apply w-full px-3 py-2 rounded text-sm outline-none transition-all duration-150;
+    background: var(--surface-900);
+    border: 1px solid var(--surface-700);
+    color: var(--surface-200);
+  }
+  .input:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(var(--accent-color-rgb), 0.15);
+  }
+
+  .tag {
+    @apply inline-flex items-center px-2 py-0.5 rounded text-xs font-medium;
+    background: rgba(var(--accent-color-rgb), 0.1);
+    color: var(--accent-color);
+  }
+
+  .badge {
+    @apply inline-flex items-center justify-center px-1.5 py-0.5 rounded text-xs font-bold;
+    min-width: 18px;
+  }
+
+  .empty-state {
+    @apply flex flex-col items-center justify-center text-center p-8;
+  }
+
+  .empty-state-icon {
+    @apply mb-4 opacity-30;
+    width: 48px;
+    height: 48px;
+  }
+
+  .empty-state-title {
+    @apply text-sm font-medium mb-1;
+    color: var(--surface-400);
+  }
+
+  .empty-state-text {
+    @apply text-xs;
+    color: var(--surface-500);
+    max-width: 300px;
+  }
+
+  .grid-bg {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .light .grid-bg {
+    background-image:
+      linear-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+  }
+
+  .focus-mode .sidebar-section,
+  .focus-mode .inspector-section,
+  .focus-mode .terminal-section {
+    display: none;
+  }
+}
+
+@layer utilities {
+  .text-accent {
+    color: var(--accent-color);
+  }
+
+  .border-accent {
+    border-color: var(--accent-color);
+  }
+
+  .glow {
+    box-shadow: 0 0 15px rgba(var(--accent-color-rgb), 0.15);
+  }
+
+  .glow-text {
+    text-shadow: 0 0 10px rgba(var(--accent-color-rgb), 0.5);
+  }
+
+  .line-clamp-1 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  }
+
+  .line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+}

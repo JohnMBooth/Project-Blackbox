@@ -1,0 +1,77 @@
+{
+  "name": "project-blackbox",
+  "version": "1.0.0",
+  "description": "PROJECT BLACKBOX — Local project workspace manager",
+
+  "main": "dist-electron/main.js",
+  "author": "John Booth (JMB-Labs)",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && electron-builder",
+    "build:check": "tsc --noEmit && vite build && electron-builder",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "tsc --noEmit",
+    "typecheck": "tsc --noEmit"
+  },
+  "build": {
+    "appId": "com.jmb-labs.project-blackbox",
+    "productName": "PROJECT BLACKBOX",
+    "directories": {
+      "output": "Build"
+    },
+    "files": [
+      "dist/**/*",
+      "dist-electron/**/*",
+      "logo/**/*"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "logo/icon.png"
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "logo/icon.png"
+    },
+    "linux": {
+      "target": "AppImage",
+      "icon": "logo/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true
+    }
+  },
+  "dependencies": {
+    "date-fns": "^4.1.0",
+    "lucide-react": "^0.468.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-markdown": "^9.0.1",
+    "rehype-highlight": "^7.0.1",
+    "rehype-raw": "^7.0.0",
+    "remark-gfm": "^4.0.0",
+    "uuid": "^11.0.3",
+    "zod": "^3.24.1",
+    "zustand": "^5.0.2"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@types/uuid": "^10.0.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.20",
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.6.3",
+    "vite": "^6.0.5",
+    "vite-plugin-electron": "^0.28.8",
+    "vite-plugin-electron-renderer": "^0.14.6",
+    "vitest": "^2.1.8"
+  }
+}
