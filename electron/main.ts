@@ -312,10 +312,51 @@ ipcMain.handle('workspace-set', (_event, workspaceId: string, metadata: unknown)
   try {
     const dir = getIndexedWorkspaceDir(workspaceId);
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-    const result = writeJSON(path.join(dir, 'metadata.json'), metadata);
+
+    const metadataPath = path.join(dir, 'metadata.json');
+    const existing = fs.existsSync(metadataPath)
+      ? readJSON(metadataPath).data
+      : null;
+
+    let merged = metadata;
+    if (existing && typeof existing === 'object' && existing !== null) {
+      const existingRecord = existing as Record<string, unknown>;
+      const incomingRecord = (metadata && typeof metadata === 'object' ? metadata : {}) as Record<string, unknown>;
+      // Preserve the existing storagePath — renderer cannot change it after creation
+      if ('storagePath' in existingRecord) {
+        incomingRecord.storagePath = existingRecord.storagePath;
+      }
+      merged = incomingRecord;
+    }
+
+    const result = writeJSON(metadataPath, merged);
     return result.success;
   } catch { return false; }
 });
+// Dedicated handler for changing storage path — requires user dialog confirmation
+ipcMain.handle('workspace-set-storage-path', async (_event, workspaceId: string) => {
+  try {
+    assertValidWorkspaceId(workspaceId);
+    const dir = getIndexedWorkspaceDir(workspaceId);
+    const metadataPath = path.join(dir, 'metadata.json');
+    const existing = readJSON(metadataPath).data;
+    if (!existing || typeof existing !== 'object') return { success: false, error: 'Workspace not found' };
+
+    const result = await dialog.showOpenDialog({
+      properties: ['openDirectory'],
+      title: 'Select Workspace Storage Folder',
+    });
+    if (result.canceled || !result.filePaths.length) {
+      return { success: false, error: 'Cancelled' };
+    }
+
+    const newPath = path.resolve(result.filePaths[0]);
+    const updated = { ...(existing as Record<string, unknown>), storagePath: newPath, updatedAt: new Date().toISOString() };
+    const writeResult = writeJSON(metadataPath, updated);
+    return { success: writeResult.success, path: newPath };
+  } catch { return { success: false, error: 'Failed to update storage path' }; }
+});
+
 ipcMain.handle('workspace-delete-files', (_event, workspaceId: string) => {
   try {
     const dir = getIndexedWorkspaceDir(workspaceId);

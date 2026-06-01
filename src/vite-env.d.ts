@@ -7,6 +7,7 @@ interface ElectronAPI {
   workspaceGet: (workspaceId: string) => Promise<unknown>;
   workspaceSet: (workspaceId: string, metadata: unknown) => Promise<boolean>;
   workspaceDeleteFiles: (workspaceId: string) => Promise<boolean>;
+  workspaceSetStoragePath: (workspaceId: string) => Promise<{ success: boolean; path?: string; error?: string }>;
   workspaceDir: (workspaceId: string) => Promise<string>;
   workspaceInit: (workspaceId: string) => Promise<boolean>;
   workspaceFileExists: (workspaceId: string, relativePath: string) => Promise<boolean>;

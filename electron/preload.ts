@@ -15,6 +15,7 @@ const api = {
   workspaceGet: (workspaceId: string): Promise<unknown> => ipcRenderer.invoke('workspace-get', workspaceId),
   workspaceSet: (workspaceId: string, metadata: unknown): Promise<boolean> => ipcRenderer.invoke('workspace-set', workspaceId, metadata),
   workspaceDeleteFiles: (workspaceId: string): Promise<boolean> => ipcRenderer.invoke('workspace-delete-files', workspaceId),
+  workspaceSetStoragePath: (workspaceId: string): Promise<{ success: boolean; path?: string; error?: string }> => ipcRenderer.invoke('workspace-set-storage-path', workspaceId),
 
   // Workspace directory
   workspaceDir: (workspaceId: string): Promise<string> => ipcRenderer.invoke('workspace-dir', workspaceId),
