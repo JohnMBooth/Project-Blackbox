@@ -308,28 +308,82 @@ ipcMain.handle('workspace-get', (_event, workspaceId: string) => {
     return data;
   } catch { return null; }
 });
+// Create a new workspace — main-process controlled to prevent arbitrary storagePath
+ipcMain.handle('workspace-create', async (_event, workspaceId: string, name: string, description: string, accentColor: string, customPath?: string) => {
+  try {
+    assertValidWorkspaceId(workspaceId);
+    const indexedDir = getIndexedWorkspaceDir(workspaceId);
+    const metadataPath = path.join(indexedDir, 'metadata.json');
+    if (fs.existsSync(metadataPath)) {
+      return { success: false, error: 'Workspace already exists' };
+    }
+
+    // Confirm custom storage path via native dialog — renderer cannot set it arbitrarily
+    let storagePath = '';
+    if (customPath) {
+      const dialogResult = await dialog.showOpenDialog({
+        properties: ['openDirectory'],
+        title: 'Select Workspace Storage Folder',
+        defaultPath: customPath,
+      });
+      if (dialogResult.canceled || !dialogResult.filePaths.length) {
+        return { success: false, error: 'Storage path not confirmed' };
+      }
+      storagePath = path.resolve(dialogResult.filePaths[0]);
+    }
+
+    const nowStr = new Date().toISOString();
+    const metadata: Record<string, unknown> = {
+      id: workspaceId,
+      name,
+      description: description || '',
+      accentColor: accentColor || '#00b4ff',
+      icon: 'folder',
+      createdAt: nowStr,
+      updatedAt: nowStr,
+      archivedAt: null,
+      deletedAt: null,
+    };
+    if (storagePath) metadata.storagePath = storagePath;
+
+    if (!fs.existsSync(indexedDir)) fs.mkdirSync(indexedDir, { recursive: true });
+    const writeResult = writeJSON(metadataPath, metadata);
+    if (!writeResult.success) return { success: false, error: 'Failed to write metadata' };
+
+    // Initialize workspace subdirectories
+    const rootDir = getWorkspaceRootDir(workspaceId);
+    if (!fs.existsSync(rootDir)) fs.mkdirSync(rootDir, { recursive: true });
+    for (const sub of ['notes', 'tasks', 'logs', 'snippets', 'references', 'events']) {
+      const subPath = path.join(rootDir, sub);
+      if (!fs.existsSync(subPath)) fs.mkdirSync(subPath, { recursive: true });
+    }
+
+    return { success: true, workspace: metadata };
+  } catch (e) {
+    return { success: false, error: e instanceof Error ? e.message : 'Unknown error' };
+  }
+});
+
 ipcMain.handle('workspace-set', (_event, workspaceId: string, metadata: unknown) => {
   try {
     const dir = getIndexedWorkspaceDir(workspaceId);
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-
     const metadataPath = path.join(dir, 'metadata.json');
-    const existing = fs.existsSync(metadataPath)
-      ? readJSON(metadataPath).data
-      : null;
 
-    let merged = metadata;
-    if (existing && typeof existing === 'object' && existing !== null) {
-      const existingRecord = existing as Record<string, unknown>;
-      const incomingRecord = (metadata && typeof metadata === 'object' ? metadata : {}) as Record<string, unknown>;
-      // Preserve the existing storagePath — renderer cannot change it after creation
-      if ('storagePath' in existingRecord) {
-        incomingRecord.storagePath = existingRecord.storagePath;
-      }
-      merged = incomingRecord;
+    // Only allow updates for existing workspaces — use workspace-create for new ones
+    if (!fs.existsSync(metadataPath)) return false;
+    if (!fs.existsSync(dir)) return false;
+
+    const existing = readJSON(metadataPath).data;
+    if (!existing || typeof existing !== 'object') return false;
+
+    const existingRecord = existing as Record<string, unknown>;
+    const incomingRecord = (metadata && typeof metadata === 'object' ? metadata : {}) as Record<string, unknown>;
+    // Preserve the existing storagePath — renderer cannot change it after creation
+    if ('storagePath' in existingRecord) {
+      incomingRecord.storagePath = existingRecord.storagePath;
     }
 
-    const result = writeJSON(metadataPath, merged);
+    const result = writeJSON(metadataPath, incomingRecord);
     return result.success;
   } catch { return false; }
 });

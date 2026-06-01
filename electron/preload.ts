@@ -12,6 +12,7 @@ const api = {
   indexSet: (data: unknown): Promise<boolean> => ipcRenderer.invoke('index-set', data),
 
   // Workspace metadata
+  workspaceCreate: (workspaceId: string, name: string, description: string, accentColor: string, customPath?: string): Promise<{ success: boolean; workspace?: unknown; error?: string }> => ipcRenderer.invoke('workspace-create', workspaceId, name, description, accentColor, customPath),
   workspaceGet: (workspaceId: string): Promise<unknown> => ipcRenderer.invoke('workspace-get', workspaceId),
   workspaceSet: (workspaceId: string, metadata: unknown): Promise<boolean> => ipcRenderer.invoke('workspace-set', workspaceId, metadata),
   workspaceDeleteFiles: (workspaceId: string): Promise<boolean> => ipcRenderer.invoke('workspace-delete-files', workspaceId),

@@ -82,8 +82,10 @@ export const useWorkspaceStore = create<WorkspaceState>((set, get) => ({
       throw new Error(`Invalid workspace: ${validation.error.issues.map((i) => i.message).join(', ')}`);
     }
 
-    await storage.saveWorkspaceMetadata(id, workspace);
-    await storage.initWorkspaceCollections(id);
+    const result = await storage.createWorkspace(id, name, description, accentColor, customPath || undefined);
+    if (!result.success) {
+      throw new Error(result.error || 'Failed to create workspace');
+    }
 
     const summary: WorkspaceSummary = { id, name, description, accentColor, icon: 'folder', createdAt: nowStr, updatedAt: nowStr, archivedAt: null, deletedAt: null, storagePath: customPath || undefined };
     const newWorkspaces = [...workspaces, summary];

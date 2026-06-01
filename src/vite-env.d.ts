@@ -4,6 +4,7 @@ interface ElectronAPI {
   settingsSet: (settings: unknown) => Promise<boolean>;
   indexGet: () => Promise<unknown>;
   indexSet: (data: unknown) => Promise<boolean>;
+  workspaceCreate: (workspaceId: string, name: string, description: string, accentColor: string, customPath?: string) => Promise<{ success: boolean; workspace?: unknown; error?: string }>;
   workspaceGet: (workspaceId: string) => Promise<unknown>;
   workspaceSet: (workspaceId: string, metadata: unknown) => Promise<boolean>;
   workspaceDeleteFiles: (workspaceId: string) => Promise<boolean>;

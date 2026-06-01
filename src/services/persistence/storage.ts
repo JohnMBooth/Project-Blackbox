@@ -42,6 +42,10 @@ export async function saveIndex(index: WorkspaceIndex): Promise<boolean> {
 
 // ─── Workspace Metadata ───────────────────────────────────
 
+export async function createWorkspace(workspaceId: string, name: string, description: string, accentColor: string, customPath?: string): Promise<{ success: boolean; workspace?: unknown; error?: string }> {
+  return api().workspaceCreate(workspaceId, name, description, accentColor, customPath);
+}
+
 export async function loadWorkspace(workspaceId: string): Promise<Workspace | null> {
   return (await api().workspaceGet(workspaceId)) as Workspace | null;
 }
