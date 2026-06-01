@@ -27,6 +27,7 @@ export default defineConfig({
         onstart(args) {
           args.reload();
         },
+        sandbox: true,
         vite: {
           build: {
             outDir: 'dist-electron',

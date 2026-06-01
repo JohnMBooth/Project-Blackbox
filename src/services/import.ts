@@ -37,8 +37,18 @@ export interface ImportResult {
   error?: string;
 }
 
+const MAX_IMPORT_SIZE = 10 * 1024 * 1024;
+
 export function validateImportJSON(content: string): ImportResult {
   try {
+    if (content.length > MAX_IMPORT_SIZE) {
+      return {
+        success: false,
+        workspace: null,
+        notes: [], tasks: [], logs: [], snippets: [], references: [], events: [],
+        error: 'Import file exceeds maximum size of 10MB',
+      };
+    }
     const parsed = JSON.parse(content);
     const result = importSchema.safeParse(parsed);
 
@@ -93,6 +103,7 @@ export function validateImportJSON(content: string): ImportResult {
 }
 
 export function parseMarkdownImport(content: string, workspaceId: string): Note[] {
+  if (content.length > MAX_IMPORT_SIZE) return [];
   const notes: Note[] = [];
   const nowStr = now();
 
@@ -133,6 +144,7 @@ export function parseMarkdownImport(content: string, workspaceId: string): Note[
 }
 
 export function parseCSVImport(content: string, workspaceId: string): Task[] {
+  if (content.length > MAX_IMPORT_SIZE) return [];
   const tasks: Task[] = [];
   const nowStr = now();
   const lines = content.split('\n').map((l) => l.trim()).filter((l) => l.length > 0);

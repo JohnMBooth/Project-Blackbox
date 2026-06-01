@@ -25,22 +25,34 @@ export function exportNotesMarkdown(notes: Note[]): string {
     .join('\n');
 }
 
+function csvEscape(v: string): string {
+  if (v.length > 0) {
+    const first = v[0];
+    if (first === '=' || first === '+' || first === '-' || first === '@' || first === '\t' || first === '\r') {
+      v = "'" + v;
+    }
+  }
+  if (v.includes(',') || v.includes('"') || v.includes('\n')) {
+    return '"' + v.replace(/"/g, '""') + '"';
+  }
+  return v;
+}
+
 export function exportTasksCSV(tasks: Task[]): string {
   const header = 'id,title,description,status,priority,dueDate,tags,createdAt,updatedAt';
   const rows = tasks
     .filter((t) => !t.deletedAt)
     .map((t) => {
-      const escape = (v: string) => `"${v.replace(/"/g, '""')}"`;
       return [
-        escape(t.id),
-        escape(t.title),
-        escape(t.description),
-        escape(t.status),
-        escape(t.priority),
-        escape(t.dueDate || ''),
-        escape(t.tags.join(';')),
-        escape(t.createdAt),
-        escape(t.updatedAt),
+        csvEscape(t.id),
+        csvEscape(t.title),
+        csvEscape(t.description),
+        csvEscape(t.status),
+        csvEscape(t.priority),
+        csvEscape(t.dueDate || ''),
+        csvEscape(t.tags.join(';')),
+        csvEscape(t.createdAt),
+        csvEscape(t.updatedAt),
       ].join(',');
     });
   return [header, ...rows].join('\n');
@@ -51,14 +63,13 @@ export function exportLogsCSV(logs: LogEntry[]): string {
   const rows = logs
     .filter((l) => !l.deletedAt)
     .map((l) => {
-      const escape = (v: string) => `"${v.replace(/"/g, '""')}"`;
       return [
-        escape(l.id),
-        escape(l.severity),
-        escape(l.source),
-        escape(l.content),
-        escape(l.tags.join(';')),
-        escape(l.createdAt),
+        csvEscape(l.id),
+        csvEscape(l.severity),
+        csvEscape(l.source),
+        csvEscape(l.content),
+        csvEscape(l.tags.join(';')),
+        csvEscape(l.createdAt),
       ].join(',');
     });
   return [header, ...rows].join('\n');

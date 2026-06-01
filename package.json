@@ -1,11 +1,12 @@
 {
   "name": "project-blackbox",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "PROJECT BLACKBOX — Local project workspace manager",
 
   "main": "dist-electron/main.js",
-  "author": "John Booth (JMB-Labs)",
+  "author": "JMB-Labs",
   "license": "MIT",
+  "copyright": "Copyright © 2026 JMB-Labs",
   "scripts": {
     "dev": "vite",
     "build": "vite build && electron-builder",
@@ -29,7 +30,7 @@
     ],
     "win": {
       "target": "nsis",
-      "icon": "logo/icon.png"
+      "legalTrademarks": "JMB-Labs"
     },
     "mac": {
       "target": "dmg",
@@ -42,7 +43,9 @@
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
-      "createDesktopShortcut": true
+      "createDesktopShortcut": true,
+      "artifactName": "ProjectBlackbox-v${version}.${ext}",
+      "license": "LICENSE"
     }
   },
   "dependencies": {
@@ -52,26 +55,23 @@
     "react-dom": "^18.3.1",
     "react-markdown": "^9.0.1",
     "rehype-highlight": "^7.0.1",
-    "rehype-raw": "^7.0.0",
     "remark-gfm": "^4.0.0",
-    "uuid": "^11.0.3",
     "zod": "^3.24.1",
     "zustand": "^5.0.2"
   },
   "devDependencies": {
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
-    "@types/uuid": "^10.0.0",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.20",
-    "electron": "^33.2.1",
-    "electron-builder": "^25.1.8",
+    "electron": "^42.3.0",
+    "electron-builder": "^26.8.1",
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.6.3",
     "vite": "^6.0.5",
     "vite-plugin-electron": "^0.28.8",
     "vite-plugin-electron-renderer": "^0.14.6",
-    "vitest": "^2.1.8"
+    "vitest": "^4.1.8"
   }
 }

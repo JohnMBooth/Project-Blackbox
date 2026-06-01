@@ -142,14 +142,6 @@ export async function showOpenDialog(options: unknown): Promise<unknown> {
   return api().showOpenDialog(options);
 }
 
-export async function readFile(filePath: string): Promise<string | null> {
-  return api().fileRead(filePath);
-}
-
-export async function writeFile(filePath: string, content: string): Promise<boolean> {
-  return api().fileWrite(filePath, content);
-}
-
 export async function getDataDir(): Promise<string> {
   return api().getDataDir();
 }

@@ -55,10 +55,6 @@ const api = {
   showSaveDialog: (options: unknown): Promise<unknown> => ipcRenderer.invoke('show-save-dialog', options),
   showOpenDialog: (options: unknown): Promise<unknown> => ipcRenderer.invoke('show-open-dialog', options),
 
-  // File operations (legacy for import/export)
-  fileRead: (filePath: string): Promise<string | null> => ipcRenderer.invoke('file-read', filePath),
-  fileWrite: (filePath: string, content: string): Promise<boolean> => ipcRenderer.invoke('file-write', filePath, content),
-
   // Diagnostics
   diagnosticsLog: (entry: string): Promise<boolean> => ipcRenderer.invoke('diagnostics-log', entry),
   diagnosticsGet: (): Promise<string> => ipcRenderer.invoke('diagnostics-get'),

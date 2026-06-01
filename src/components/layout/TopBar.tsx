@@ -33,10 +33,6 @@ export function TopBar() {
       <div className="flex-1" />
 
       <div className="flex items-center gap-1">
-        <span className="text-[10px] font-mono px-2 py-0.5 rounded" style={{ background: 'rgba(0, 255, 136, 0.1)', color: 'var(--terminal-green)' }}>
-          LOCAL ONLY
-        </span>
-
         <button className="btn btn-ghost text-xs" onClick={() => setSearchOpen(true)} title="Search (Ctrl+F)">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" />

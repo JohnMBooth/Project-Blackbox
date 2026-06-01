@@ -28,8 +28,6 @@ interface ElectronAPI {
   eventsSave: (workspaceId: string, events: unknown[]) => Promise<boolean>;
   showSaveDialog: (options: unknown) => Promise<unknown>;
   showOpenDialog: (options: unknown) => Promise<unknown>;
-  fileRead: (filePath: string) => Promise<string | null>;
-  fileWrite: (filePath: string, content: string) => Promise<boolean>;
   diagnosticsLog: (entry: string) => Promise<boolean>;
   diagnosticsGet: () => Promise<string>;
 }
