@@ -57,6 +57,14 @@ export function NoteEditor({ noteId, onBack }: NoteEditorProps) {
     await save(updated);
   }, [note, title, content, tags, save]);
 
+  const handleBack = useCallback(async () => {
+    if (note) {
+      const updated = { ...note, title, content, tags };
+      await save(updated);
+    }
+    onBack();
+  }, [note, title, content, tags, save, onBack]);
+
   // Autosave
   useEffect(() => {
     if (!note || !title) return;
@@ -86,7 +94,7 @@ export function NoteEditor({ noteId, onBack }: NoteEditorProps) {
     <div className="flex-1 flex flex-col overflow-hidden">
       <div className="panel-header">
         <div className="flex items-center gap-2">
-          <button className="btn btn-ghost p-1" onClick={onBack}>
+          <button className="btn btn-ghost p-1" onClick={handleBack}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M19 12H5M12 19l-7-7 7-7" />
             </svg>

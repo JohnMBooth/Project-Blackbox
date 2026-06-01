@@ -4,9 +4,11 @@ interface ElectronAPI {
   settingsSet: (settings: unknown) => Promise<boolean>;
   indexGet: () => Promise<unknown>;
   indexSet: (data: unknown) => Promise<boolean>;
+  workspaceCreate: (workspaceId: string, name: string, description: string, accentColor: string, customPath?: string) => Promise<{ success: boolean; workspace?: unknown; error?: string }>;
   workspaceGet: (workspaceId: string) => Promise<unknown>;
   workspaceSet: (workspaceId: string, metadata: unknown) => Promise<boolean>;
   workspaceDeleteFiles: (workspaceId: string) => Promise<boolean>;
+  workspaceSetStoragePath: (workspaceId: string) => Promise<{ success: boolean; path?: string; error?: string }>;
   workspaceDir: (workspaceId: string) => Promise<string>;
   workspaceInit: (workspaceId: string) => Promise<boolean>;
   workspaceFileExists: (workspaceId: string, relativePath: string) => Promise<boolean>;
@@ -28,8 +30,6 @@ interface ElectronAPI {
   eventsSave: (workspaceId: string, events: unknown[]) => Promise<boolean>;
   showSaveDialog: (options: unknown) => Promise<unknown>;
   showOpenDialog: (options: unknown) => Promise<unknown>;
-  fileRead: (filePath: string) => Promise<string | null>;
-  fileWrite: (filePath: string, content: string) => Promise<boolean>;
   diagnosticsLog: (entry: string) => Promise<boolean>;
   diagnosticsGet: () => Promise<string>;
 }

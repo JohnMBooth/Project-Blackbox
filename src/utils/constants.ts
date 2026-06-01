@@ -1,5 +1,5 @@
 export const APP_NAME = 'PROJECT BLACKBOX';
-export const APP_VERSION = '1.0.0';
+export const APP_VERSION = '1.1.0';
 export const SCHEMA_VERSION = 1;
 
 export const DEFAULT_ACCENT_COLOR = '#00b4ff';

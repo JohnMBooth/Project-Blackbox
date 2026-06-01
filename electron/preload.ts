@@ -12,9 +12,11 @@ const api = {
   indexSet: (data: unknown): Promise<boolean> => ipcRenderer.invoke('index-set', data),
 
   // Workspace metadata
+  workspaceCreate: (workspaceId: string, name: string, description: string, accentColor: string, customPath?: string): Promise<{ success: boolean; workspace?: unknown; error?: string }> => ipcRenderer.invoke('workspace-create', workspaceId, name, description, accentColor, customPath),
   workspaceGet: (workspaceId: string): Promise<unknown> => ipcRenderer.invoke('workspace-get', workspaceId),
   workspaceSet: (workspaceId: string, metadata: unknown): Promise<boolean> => ipcRenderer.invoke('workspace-set', workspaceId, metadata),
   workspaceDeleteFiles: (workspaceId: string): Promise<boolean> => ipcRenderer.invoke('workspace-delete-files', workspaceId),
+  workspaceSetStoragePath: (workspaceId: string): Promise<{ success: boolean; path?: string; error?: string }> => ipcRenderer.invoke('workspace-set-storage-path', workspaceId),
 
   // Workspace directory
   workspaceDir: (workspaceId: string): Promise<string> => ipcRenderer.invoke('workspace-dir', workspaceId),
@@ -54,10 +56,6 @@ const api = {
   // Dialogs
   showSaveDialog: (options: unknown): Promise<unknown> => ipcRenderer.invoke('show-save-dialog', options),
   showOpenDialog: (options: unknown): Promise<unknown> => ipcRenderer.invoke('show-open-dialog', options),
-
-  // File operations (legacy for import/export)
-  fileRead: (filePath: string): Promise<string | null> => ipcRenderer.invoke('file-read', filePath),
-  fileWrite: (filePath: string, content: string): Promise<boolean> => ipcRenderer.invoke('file-write', filePath, content),
 
   // Diagnostics
   diagnosticsLog: (entry: string): Promise<boolean> => ipcRenderer.invoke('diagnostics-log', entry),

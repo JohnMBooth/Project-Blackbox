@@ -6,11 +6,8 @@ export function AboutPanel() {
     <div className="flex-1 flex items-start justify-center p-8 overflow-y-auto">
       <div className="max-w-lg w-full space-y-6 pt-12">
         <div className="text-center mb-6">
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl mb-4" style={{ background: 'var(--accent-color)' }}>
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2">
-              <rect x="4" y="4" width="16" height="16" rx="2" />
-              <path d="M9 9h6M9 13h6M9 17h4" />
-            </svg>
+          <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl mb-4 overflow-hidden" style={{ background: 'var(--accent-color)' }}>
+            <img src="/icon.png" alt="PROJECT BLACKBOX" className="w-full h-full object-cover" />
           </div>
           <h1 className="text-xl font-bold mb-1" style={{ color: 'var(--surface-100)' }}>{APP_NAME}</h1>
           <p className="text-sm" style={{ color: 'var(--surface-400)' }}>v{APP_VERSION}</p>

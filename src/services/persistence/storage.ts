@@ -42,6 +42,10 @@ export async function saveIndex(index: WorkspaceIndex): Promise<boolean> {
 
 // ─── Workspace Metadata ───────────────────────────────────
 
+export async function createWorkspace(workspaceId: string, name: string, description: string, accentColor: string, customPath?: string): Promise<{ success: boolean; workspace?: unknown; error?: string }> {
+  return api().workspaceCreate(workspaceId, name, description, accentColor, customPath);
+}
+
 export async function loadWorkspace(workspaceId: string): Promise<Workspace | null> {
   return (await api().workspaceGet(workspaceId)) as Workspace | null;
 }
@@ -140,14 +144,6 @@ export async function showSaveDialog(options: unknown): Promise<unknown> {
 
 export async function showOpenDialog(options: unknown): Promise<unknown> {
   return api().showOpenDialog(options);
-}
-
-export async function readFile(filePath: string): Promise<string | null> {
-  return api().fileRead(filePath);
-}
-
-export async function writeFile(filePath: string, content: string): Promise<boolean> {
-  return api().fileWrite(filePath, content);
 }
 
 export async function getDataDir(): Promise<string> {
